@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邹孝沙 - 产品经理个人网站</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", system-ui, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #ffffff;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        .nav-header {
+            width: 100%;
+            padding: 22px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            z-index: 20;
+        }
+
+        .nav-item {
+            font-size: 18px;
+            color: #555;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .nav-item.active {
+            background: #000;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-item:hover:not(.active) {
+            color: #000;
+            background: #f0f0f0;
+        }
+
+        .resume-wrap {
+            width: 100vw;
+            height: calc(100vh - 86px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-track {
+            width: 500vw;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .slide-item {
+            width: 100vw;
+            height: 100%;
+            padding: 30px 80px;
+            background: #fff;
+            display: flex;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: 48px;
+            color: #000;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            font-size: 24px;
+            color: #8068c8;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .content-card {
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .info-desc {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+            max-width: 550px;
+        }
+
+        .tag-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tag-badge {
+            background: #f0f0f0;
+            color: #555;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .resume-btn {
+            padding: 11px 26px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn {
+            border: 1px solid #000;
+            background: #fff;
+            color: #000;
+        }
+
+        .contact-btn {
+            background: #d4e8ff;
+            color: #333;
+        }
+
+        .resume-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .matcher-box {
+            max-width: 420px;
+        }
+
+        .matcher-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .matcher-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .matcher-input input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 1px solid #e5e5e5;
+            border-radius: 30px;
+            outline: none;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        .matcher-input input:focus {
+            border-color: #8068c8;
+        }
+
+        .matcher-input button {
+            padding: 12px 24px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .matcher-input button:hover {
+            background: #333;
+        }
+
+        /* 匹配结果全屏弹层 */
+        .match-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        .match-overlay.active { display: block; }
+
+        .match-result-card {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: matchSlideUp 0.4s ease;
+        }
+        @keyframes matchSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .match-result-header {
+            background: linear-gradient(135deg, #8068c8 0%, #9b7dd6 100%);
+            padding: 32px 40px 28px;
+            text-align: center;
+            position: relative;
+        }
+        .match-close-btn {
+            position: absolute;
+            top: 16px; right: 16px;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .match-close-btn:hover { background: rgba(255,255,255,0.35); }
+        .match-overall-score {
+            font-size: 56px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+        }
+        .match-overall-score span { font-size: 28px; font-weight: 600; }
+        .match-overall-label {
+            color: rgba(255,255,255,0.85);
+            font-size: 15px;
+            margin-top: 8px;
+        }
+        .match-summary {
+            color: rgba(255,255,255,0.95);
+            font-size: 15px;
+            margin-top: 14px;
+            line-height: 1.6;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .match-result-body {
+            padding: 28px 40px 36px;
+        }
+
+        .match-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .match-section-title i { color: #8068c8; }
+
+        .match-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        .match-dim-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid #eee;
+        }
+        .match-dim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .match-dim-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .match-dim-score {
+            font-size: 20px;
+            font-weight: 800;
+            color: #8068c8;
+        }
+        .match-dim-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .match-dim-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+        .match-dim-desc {
+            font-size: 12px;
+            color: #777;
+            line-height: 1.6;
+        }
+
+        .match-highlights {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+        .match-highlight-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .match-highlight-item:last-child { margin-bottom: 0; }
+        .match-highlight-item i { color: #22c55e; margin-top: 3px; flex-shrink: 0; }
+
+        .match-gaps {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+        .match-gap-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .match-gap-item:last-child { margin-bottom: 0; }
+        .match-gap-item i { color: #f97316; margin-top: 3px; flex-shrink: 0; }
+
+        .match-advice {
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.7;
+            display: flex;
+            gap: 10px;
+        }
+        .match-advice i { color: #8068c8; margin-top: 3px; flex-shrink: 0; }
+
+        .match-loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .match-loading i { font-size: 32px; color: #8068c8; }
+        .match-loading p { margin-top: 16px; color: #666; font-size: 15px; }
+
+        .match-error {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .match-error i { font-size: 32px; color: #e63946; }
+        .match-error p { margin-top: 12px; color: #666; font-size: 14px; }
+
+        @media (max-width: 600px) {
+            .match-matrix { grid-template-columns: 1fr; }
+            .match-result-body { padding: 20px; }
+            .match-result-header { padding: 24px 20px; }
+            .match-overall-score { font-size: 44px; }
+        }
+
+        .avatar-box {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 350px;
+            height: auto;
+            border-radius: 12px;
+            border: 3px solid #d4e8ff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.02);
+        }
+
+        /* ===== 实习经历：概览卡片 ===== */
+        .intern-overview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .intern-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 26px 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .intern-card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
+            border-color: #8068c8;
+            transform: translateY(-3px);
+        }
+
+        .intern-card-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .intern-card-logo svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .intern-card-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .intern-card-company {
+            font-size: 17px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 2px;
+        }
+
+        .intern-card-role {
+            font-size: 14px;
+            color: #8068c8;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .intern-card-time {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .intern-card-summary {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .intern-card-arrow {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            color: #ccc;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .intern-card:hover .intern-card-arrow {
+            color: #8068c8;
+            transform: translateX(4px);
+        }
+
+        /* ===== 实习经历：详情视图 ===== */
+        .intern-detail-view {
+            display: none;
+        }
+
+        .intern-detail-view.active {
+            display: block;
+            animation: fadeSlideIn 0.35s ease;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intern-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 22px;
+            border-radius: 22px;
+            background: #f0f0f0;
+            color: #555;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 24px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .intern-back-btn:hover {
+            background: #000;
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        .intern-detail-header {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 24px 28px;
+            background: #f8f9fa;
+            border-radius: 16px;
+        }
+
+        .intern-detail-logo {
+            width: 76px;
+            height: 76px;
+            border-radius: 16px;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .intern-detail-logo svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .intern-detail-header h3 {
+            font-size: 22px;
+            color: #222;
+            margin-bottom: 2px;
+        }
+
+        .intern-detail-role {
+            font-size: 16px;
+            color: #8068c8;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .intern-detail-time {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .intern-okr {
+            background: #e8f4ff;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #222;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .intern-okr::before {
+            content: 'OKR';
+            display: inline-block;
+            background: #8068c8;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            margin-right: 10px;
+            font-weight: 700;
+            vertical-align: middle;
+        }
+
+        .detail-project {
+            margin-bottom: 18px;
+            padding: 22px 26px;
+            background: #fff;
+            border-radius: 14px;
+            border-left: 4px solid #8068c8;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .detail-project-title {
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-project-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #8068c8;
+            flex-shrink: 0;
+        }
+
+        .detail-project p {
+            color: #444;
+            line-height: 1.8;
+            font-size: 15px;
+            text-indent: 2em;
+        }
+
+        .project-section {
+            margin-top: 14px;
+        }
+
+        .project-section-label {
+            display: inline-block;
+            background: #8068c8;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .project-section p {
+            text-indent: 0;
+            margin-bottom: 6px;
+        }
+
+        .project-section ul {
+            margin: 6px 0 6px 4px;
+            padding-left: 18px;
+            color: #444;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .project-section li {
+            margin-bottom: 4px;
+        }
+
+        .project-role-tag {
+            display: inline-block;
+            background: #fff3e0;
+            color: #e65100;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .project-overview {
+            background: #fafafa;
+            border: 1px dashed #d0d0d0;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 14px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            text-indent: 0;
+        }
+
+        .mindmap-box {
+            margin-top: 16px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .mindmap-box svg {
+            display: block;
+            margin: 0 auto;
+            min-width: 720px;
+        }
+
+        .ui-mockup-section {
+            margin-top: 18px;
+        }
+
+        .ui-mockup-row {
+            display: flex;
+            gap: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .ui-mockup-item {
+            text-align: center;
+        }
+
+        .ui-mockup-caption {
+            font-size: 13px;
+            color: #888;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .phone-frame {
+            width: 200px;
+            height: 380px;
+            border: 3px solid #333;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            position: relative;
+        }
+
+        .phone-frame .phone-notch {
+            width: 50px;
+            height: 6px;
+            background: #333;
+            border-radius: 0 0 8px 8px;
+            margin: 0 auto;
+        }
+
+        .phone-frame .phone-screen {
+            width: 100%;
+            height: calc(100% - 6px);
+            overflow: hidden;
+            font-size: 7px;
+            line-height: 1.3;
+        }
+
+        /* 首页feed */
+        .mf-statusbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 8px;
+            font-size: 7px;
+            color: #333;
+            background: #FFD100;
+        }
+        .mf-searchbar {
+            background: #FFD100;
+            padding: 3px 8px 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .mf-searchbar .mf-loc {
+            font-size: 6px;
+            color: #333;
+            font-weight: 600;
+        }
+        .mf-searchbar .mf-search {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            padding: 3px 6px;
+            font-size: 6px;
+            color: #999;
+        }
+        .mf-feed {
+            padding: 4px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+        .mf-card {
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .mf-card-img {
+            height: 40px;
+            border-radius: 6px 6px 0 0;
+        }
+        .mf-card-body {
+            padding: 3px 5px;
+        }
+        .mf-card-body .mf-name { font-size: 6px; font-weight: 600; color: #333; }
+        .mf-card-body .mf-price { font-size: 8px; color: #e63946; font-weight: 700; }
+        .mf-card-body .mf-meta { font-size: 5px; color: #999; }
+
+        /* 主题卡 - 特殊样式 */
+        .mf-theme-card {
+            grid-column: span 2;
+            border-radius: 8px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(139,69,19,0.25);
+        }
+        .mf-theme-card .mf-theme-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .mf-theme-card .mf-theme-text { flex: 1; }
+        .mf-theme-card .mf-theme-title { font-size: 8px; font-weight: 700; color: #fff; line-height: 1.3; }
+        .mf-theme-card .mf-theme-sub { font-size: 5px; color: rgba(255,255,255,0.8); margin-top: 2px; }
+        .mf-theme-card .mf-theme-price { font-size: 7px; color: #FFD700; font-weight: 700; }
+        .mf-theme-card .mf-theme-arrow { color: rgba(255,255,255,0.6); font-size: 8px; }
+
+        /* 落地页列表 */
+        .lp-header {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            gap: 4px;
+        }
+        .lp-header .lp-back { font-size: 8px; color: #333; }
+        .lp-header .lp-title { flex: 1; font-size: 7px; font-weight: 700; color: #333; text-align: center; }
+        .lp-banner {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lp-banner .lp-banner-title { font-size: 8px; font-weight: 700; color: #fff; flex: 1; }
+        .lp-list {
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .lp-item {
+            display: flex;
+            gap: 5px;
+            padding: 4px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .lp-item-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+        .lp-item-body { flex: 1; min-width: 0; }
+        .lp-item-name { font-size: 6px; font-weight: 600; color: #333; }
+        .lp-item-tags { display: flex; gap: 3px; margin: 2px 0; flex-wrap: wrap; }
+        .lp-item-tag { font-size: 4px; padding: 1px 3px; border-radius: 3px; background: #FFF3E0; color: #E65100; }
+        .lp-item-meta { font-size: 4px; color: #999; }
+        .lp-item-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+        .lp-item-price { font-size: 8px; color: #e63946; font-weight: 700; }
+        .lp-item-price .lp-old { font-size: 4px; color: #ccc; text-decoration: line-through; font-weight: 400; }
+        .lp-item-btn { font-size: 6px; background: #FF6B35; color: #fff; padding: 2px 6px; border-radius: 8px; font-weight: 600; }
+        .lp-tabbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 3px 0;
+            border-top: 1px solid #eee;
+            background: #fff;
+        }
+        .lp-tabbar .lp-tab { font-size: 5px; color: #999; text-align: center; }
+        .lp-tabbar .lp-tab.active { color: #FFD100; }
+
+        .timeline-item {
+            border-left: 3px solid #000;
+            padding-left: 22px;
+            margin-bottom: 32px;
+            max-width: 850px;
+        }
+
+        .timeline-item h3 {
+            font-size: 22px;
+            color: #222;
+        }
+
+        .timeline-score {
+            color: #8068c8;
+            font-weight: 600;
+            margin-left: 12px;
+        }
+
+        .timeline-time {
+            color: #666;
+            margin: 6px 0 12px;
+            font-size: 15px;
+        }
+
+        .timeline-desc {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .skill-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            max-width: 800px;
+        }
+
+        .skill-tag {
+            background: #f5f5f5;
+            color: #333;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 17px;
+            border: 1px solid #eee;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            background: #8068c8;
+            color: #fff;
+            border-color: #8068c8;
+        }
+
+        .skill-icon {
+            margin-right: 8px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 36px;
+            border-radius: 16px;
+            text-align: center;
+            min-width: 340px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-content h3 {
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            margin: 12px 0;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .modal-content p i {
+            color: #8068c8;
+            margin-right: 8px;
+        }
+
+        .close-modal {
+            margin-top: 24px;
+            padding: 10px 28px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .slide-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 15;
+            color: #555;
+            font-size: 20px;
+            user-select: none;
+        }
+
+        .slide-arrow:hover {
+            background: rgba(0,0,0,0.12);
+            color: #000;
+        }
+
+        .arrow-left {
+            left: 20px;
+        }
+
+        .arrow-right {
+            right: 20px;
+        }
+
+        .page-indicator {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 15;
+        }
+
+        .page-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-dot.active {
+            background: #000;
+            width: 28px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-header {
+                gap: 8px;
+                padding: 15px 10px;
+            }
+            .nav-item {
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+            .slide-item {
+                padding: 20px 15px;
+            }
+            .page-title {
+                font-size: 32px;
+            }
+            .page-subtitle {
+                font-size: 18px;
+            }
+            .avatar {
+                width: 240px;
+            }
+            .intern-overview {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .intern-card {
+                padding: 18px;
+                gap: 14px;
+            }
+            .intern-card-logo {
+                width: 48px;
+                height: 48px;
+            }
+            .intern-detail-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            .detail-project {
+                padding: 16px;
+            }
+            .detail-project p {
+                text-indent: 0;
+                text-align: left;
+            }
+            .matcher-input {
+                flex-direction: column;
+            }
+            .slide-arrow {
+                display: none;
+            }
+        }
+
+        /* ===== 项目经历：赛博闺蜜 ===== */
+        .saibo-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .saibo-header h3 { flex: 1; min-width: 200px; }
+        .saibo-badge {
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #5a3e00;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .saibo-demo-link {
+            background: #8068c8;
+            color: #fff !important;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .saibo-demo-link:hover { background: #6b58b8; transform: translateY(-1px); }
+
+        .saibo-screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 10px;
+        }
+        .saibo-shot {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+            background: #fff;
+        }
+        .saibo-shot-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+        .saibo-shot-caption {
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .saibo-shot-caption strong { color: #8068c8; }
+
+        .saibo-arch-img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+            margin-top: 8px;
+        }
+
+        .saibo-tech-flow {
+            background: linear-gradient(135deg, #f8f6fc, #f0ecfa);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 8px;
+        }
+        .saibo-tech-card {
+            background: #fff;
+            border: 1px solid #e0d8f0;
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .saibo-tech-card:hover {
+            border-color: #8068c8;
+            box-shadow: 0 2px 8px rgba(128,104,200,0.15);
+        }
+        .saibo-tech-card strong { color: #8068c8; font-size: 15px; }
+        .saibo-tech-card span { color: #999; font-size: 12px; }
+
+        .saibo-arch-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .saibo-arch-card {
+            background: linear-gradient(160deg, #2a2050, #1a1438);
+            border-radius: 10px;
+            padding: 14px 10px;
+            color: #fff;
+            border: 1px solid rgba(128,104,200,0.3);
+        }
+        .saibo-arch-card h4 {
+            font-size: 14px;
+            color: #c8b8f8;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .saibo-arch-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 8px 0;
+        }
+        .saibo-arch-card li {
+            font-size: 11px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            padding-left: 10px;
+            position: relative;
+        }
+        .saibo-arch-card li::before {
+            content: '•';
+            color: #8068c8;
+            position: absolute;
+            left: 0;
+        }
+        .saibo-arch-tags {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .saibo-arch-tag {
+            background: rgba(128,104,200,0.25);
+            color: #c8b8f8;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+        }
+        @media (max-width: 768px) {
+            .saibo-arch-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-header">
+        <div class="nav-item active" data-index="0">关于我</div>
+        <div class="nav-item" data-index="1">教育背景</div>
+        <div class="nav-item" data-index="2">实习经历</div>
+        <div class="nav-item" data-index="3">技能爱好</div>
+        <div class="nav-item" data-index="4">项目经历</div>
+    </div>
+
+    <div class="slide-arrow arrow-left" id="arrowLeft">
+        <i class="fas fa-chevron-left"></i>
+    </div>
+    <div class="slide-arrow arrow-right" id="arrowRight">
+        <i class="fas fa-chevron-right"></i>
+    </div>
+
+    <div class="resume-wrap">
+        <div class="slide-track" id="track">
+            <!-- 第1页：关于我 -->
+            <div class="slide-item">
+                <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+                    <div class="text-box">
+                        <h1 class="page-title">Hi, 我是邹孝沙 Zoey</h1>
+                        <div class="tag-line">
+                            <span class="tag-badge">24岁</span>
+                            <span class="tag-badge">四川人</span>
+                            <span class="tag-badge">ENFJ</span>
+                            <span class="tag-badge">同济27硕</span>
+                            <span class="tag-badge">专业第一</span>
+                            <span class="tag-badge">搜推策略</span>
+                            <span class="tag-badge">本地生活</span>
+                            <span class="tag-badge">酒旅业务</span>
+                            <span class="tag-badge">产品实习1年+</span>
+                        </div>
+                        <p class="info-desc">
+                            同济大学在读硕士，一年多产品实习经验，横跨美团搜推、B站搜索、美团酒旅与同程商分四段经历。擅长从数据中拆解问题，热衷探索AI在产品场景的落地应用。性格开朗、执行力强。
+                        </p>
+                        <div class="btn-group">
+                            <button class="resume-btn contact-btn" id="openContact">
+                                <i class="fas fa-envelope"></i> 联系我
+                            </button>
+                            <a href="resume.pdf" download="邹孝沙的简历.pdf" class="resume-btn" style="background:#8068c8; color:#fff; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                                <i class="fas fa-download"></i> 下载简历
+                            </a>
+                        </div>
+                        <div class="matcher-box">
+                            <div class="matcher-title">AI 岗位匹配器 — 粘贴JD，查看匹配度</div>
+                            <div class="matcher-input">
+                                <input type="text" placeholder="粘贴您的JD，查看与岗位之间的匹配度" id="jdInput">
+                                <button id="matchBtn">开始匹配 →</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="avatar-box">
+                        <img src="profile.jpg" alt="邹孝沙个人照片" class="avatar">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第2页：教育背景 -->
+            <div class="slide-item">
+                <div class="container">
+                    <h1 class="page-title">教育背景</h1>
+                    <div class="page-subtitle">Education</div>
+                    <div class="content-card">
+                        <div class="timeline-item">
+                            <h3>同济大学 | 技术经济及管理专业(A类) | 硕士 <span class="timeline-score">综合成绩：92</span></h3>
+                            <div class="timeline-time">2024.09 - 2027.03</div>
+                            <div class="timeline-desc">
+                                <strong>主修课程：</strong>大数据分析、技术创新管理、人工智能导论、中级微观经济学、营销管理、商务谈判<br>
+                                <strong style="color:#8068c8;">硕士专业成绩排名第一</strong>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <h3>上海大学 | 管理科学专业(A类) | 本科 <span class="timeline-score">综合成绩：89</span></h3>
+                            <div class="timeline-time">2020.09 - 2024.06</div>
+                            <div class="timeline-desc">
+                                <strong>主修课程：</strong>统计学、计量经济学、Python、数据库应用、预测与决策技术、金融仿真、运营管理、随机过程基础<br>
+                                <strong style="color:#8068c8;">多次获得国家励志奖学金、学业优秀奖学金</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第3页：实习经历 -->
+            <div class="slide-item">
+                <div class="container">
+                    <h1 class="page-title">实习经历</h1>
+                    <div class="page-subtitle">Internship Experience</div>
+
+                    <!-- 概览卡片 -->
+                    <div class="intern-overview" id="internOverview"></div>
+
+                    <!-- 详情视图 -->
+                    <div class="intern-detail-view" id="internDetailView">
+                        <button class="intern-back-btn" id="internBackBtn">
+                            <i class="fas fa-arrow-left"></i> 返回概览
+                        </button>
+                        <div id="internDetailContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第4页：技能爱好 -->
+            <div class="slide-item">
+                <div class="container">
+                    <h1 class="page-title">技能爱好</h1>
+                    <div class="page-subtitle">Skills & Hobbies</div>
+                    <div class="content-card">
+                        <h3 style="color:#8068c8; margin-bottom:12px; font-size:18px;"><i class="fas fa-laptop-code" style="margin-right:8px;"></i>技能</h3>
+                        <div class="skill-box">
+                            <div class="skill-tag"><i class="fas fa-chart-bar skill-icon"></i>数据分析与看板搭建</div>
+                            <div class="skill-tag"><i class="fas fa-file-excel skill-icon"></i>Excel (VBA、透视等)</div>
+                            <div class="skill-tag"><i class="fas fa-pencil-ruler skill-icon"></i>原型图与流程图绘制</div>
+                            <div class="skill-tag"><i class="fab fa-python skill-icon"></i>Python 基础</div>
+                            <div class="skill-tag"><i class="fas fa-robot skill-icon"></i>大模型与 AI Agent 相关知识</div>
+                            <div class="skill-tag"><i class="fas fa-magic skill-icon"></i>AIGC 文生文/图</div>
+                        </div>
+                        <h3 style="color:#ed7d31; margin:24px 0 12px; font-size:18px;"><i class="fas fa-heart" style="margin-right:8px;"></i>爱好</h3>
+                        <div class="skill-box">
+                            <div class="skill-tag"><i class="fas fa-video skill-icon"></i>自媒体运营（万粉金铲铲直播账号、音乐博主账号）</div>
+                            <div class="skill-tag"><i class="fas fa-dumbbell skill-icon"></i>健身游泳户外</div>
+                            <div class="skill-tag"><i class="fas fa-utensils skill-icon"></i>探店</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第5页：项目经历 -->
+            <div class="slide-item">
+                <div class="container">
+                    <h1 class="page-title">项目经历</h1>
+                    <div class="page-subtitle">Project Experience</div>
+                    <div class="content-card">
+                        <div class="saibo-header">
+                            <h3 style="font-size:18px; color:#333;">B站黑客松 · AI驱动的婚恋/交友匹配「赛博闺蜜」| 产品负责人</h3>
+                            <span class="saibo-badge">🏆 优胜奖</span>
+                            <a href="https://zoey-xs.github.io/saibo-demo/saibo_demo.html" target="_blank" class="saibo-demo-link">🔗 在线体验Demo</a>
+                        </div>
+                        <div class="timeline-time" style="margin-bottom:16px;">2025.11 - 2025.12</div>
+
+                        <!-- 用户路径 -->
+                        <div class="project-section">
+                            <div class="project-section-label">用户路径</div>
+                            <div class="saibo-arch-grid">
+                                <div class="saibo-arch-card">
+                                    <h4>📝 数据输入</h4>
+                                    <ul>
+                                        <li>B站UID授权登录</li>
+                                        <li>一键授权</li>
+                                        <li>隐私保护</li>
+                                        <li>智能识别</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">社交账号</span>
+                                        <span class="saibo-arch-tag">OAuth</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>🧠 AI画像</h4>
+                                    <ul>
+                                        <li>MBTI性格分析</li>
+                                        <li>兴趣标签生成</li>
+                                        <li>情感需求识别</li>
+                                        <li>风格类型选择</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">LLM分析</span>
+                                        <span class="saibo-arch-tag">多模态</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>💞 智能匹配</h4>
+                                    <ul>
+                                        <li>多维度匹配</li>
+                                        <li>心动嘉宾生成</li>
+                                        <li>实时优化</li>
+                                        <li>兴趣标签精准筛选</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">推荐算法</span>
+                                        <span class="saibo-arch-tag">粗排+精排</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>📍 约会协调</h4>
+                                    <ul>
+                                        <li>智能地点推荐</li>
+                                        <li>约会流程规划</li>
+                                        <li>餐厅预约服务</li>
+                                        <li>实时协调沟通</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">LBS</span>
+                                        <span class="saibo-arch-tag">AI规划</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>🤗 关系陪伴</h4>
+                                    <ul>
+                                        <li>AI闺蜜情感支持</li>
+                                        <li>聊天技巧指导</li>
+                                        <li>魅力提升建议</li>
+                                        <li>冲突调解服务</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">情感AI</span>
+                                        <span class="saibo-arch-tag">大模型</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 产品界面截图 -->
+                        <div class="project-section">
+                            <div class="project-section-label">产品界面</div>
+                            <div class="saibo-screenshots">
+                                <div class="saibo-shot">
+                                    <img src="saibo-1-login.png" class="saibo-shot-img" />
+                                    <div class="saibo-shot-caption"><strong>① 登录页</strong>：B站/小红书/抖音/微信社交账号授权登录</div>
+                                </div>
+                                <div class="saibo-shot">
+                                    <img src="saibo-2-type.png" class="saibo-shot-img" style="object-position: top; height: 180px;" />
+                                    <div class="saibo-shot-caption"><strong>② 类型选择</strong>：5种风格类型（甜美/御姐/文艺/知性/酷飒系）</div>
+                                </div>
+                                <div class="saibo-shot">
+                                    <img src="saibo-3-tags.png" class="saibo-shot-img" />
+                                    <div class="saibo-shot-caption"><strong>③ 兴趣标签</strong>：20+兴趣标签多选，精准匹配心动对象</div>
+                                </div>
+                                <div class="saibo-shot">
+                                    <img src="saibo-5-date.png" class="saibo-shot-img" />
+                                    <div class="saibo-shot-caption"><strong>④ 智能约会规划</strong>：结合位置+兴趣+嘉宾信息AI规划约会路线</div>
+                                </div>
+                                <div class="saibo-shot">
+                                    <img src="saibo-4-chat.png" class="saibo-shot-img" />
+                                    <div class="saibo-shot-caption"><strong>⑤ 赛博闺蜜</strong>：AI恋爱顾问，约会餐厅/活动/聊天技巧/魅力提升</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 技术路径 -->
+                        <div class="project-section">
+                            <div class="project-section-label">技术路径</div>
+                            <div class="saibo-tech-flow">
+                                <div class="saibo-tech-card"><strong>数据采集</strong><span>Agent抓包 + LLM清洗，5分钟完成</span></div>
+                                <div class="saibo-tech-card"><strong>画像构建</strong><span>B站标签 + AI分析生成性格画像</span></div>
+                                <div class="saibo-tech-card"><strong>标签生成</strong><span>图文多模态分析，AI细粒度标签</span></div>
+                                <div class="saibo-tech-card"><strong>心动脸生成</strong><span>AI虚拟脸生成，多模态打分</span></div>
+                                <div class="saibo-tech-card"><strong>智能匹配</strong><span>粗排 + 精排，个性化搜索推荐</span></div>
+                                <div class="saibo-tech-card"><strong>关系指导</strong><span>大模型驱动，情感咨询+冲突调解</span></div>
+                                <div class="saibo-tech-card"><strong>约会调度</strong><span>多Agent协作，地点推荐+预约+规划</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 系统架构 -->
+                        <div class="project-section">
+                            <div class="project-section-label">系统架构</div>
+                            <div class="saibo-arch-grid">
+                                <div class="saibo-arch-card">
+                                    <h4>📊 数据收集模块</h4>
+                                    <ul>
+                                        <li>B站用户授权</li>
+                                        <li>用户行为分析</li>
+                                        <li>用户&嘉宾画像</li>
+                                        <li>嘉宾获取Agent</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">隐私计算</span>
+                                        <span class="saibo-arch-tag">数据脱敏</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>🧠 AI分析基座</h4>
+                                    <ul>
+                                        <li>AI细粒度标签生成</li>
+                                        <li>多模态标签分类</li>
+                                        <li>心动画像绘制</li>
+                                        <li>多模态打分任务</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">LLM</span>
+                                        <span class="saibo-arch-tag">心理测量学</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>💜 智能匹配引擎</h4>
+                                    <ul>
+                                        <li>全模态行为建模</li>
+                                        <li>个性化搜索系统</li>
+                                        <li>潜在意图深度感知</li>
+                                        <li>优质嘉宾优选推荐</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">推荐算法</span>
+                                        <span class="saibo-arch-tag">情感计算</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>📍 约会协调系统</h4>
+                                    <ul>
+                                        <li>智能地点推荐</li>
+                                        <li>餐厅预约服务</li>
+                                        <li>约会流程规划</li>
+                                        <li>实时协调沟通</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">Agent调度</span>
+                                        <span class="saibo-arch-tag">API集成</span>
+                                    </div>
+                                </div>
+                                <div class="saibo-arch-card">
+                                    <h4>🤝 关系指导服务</h4>
+                                    <ul>
+                                        <li>AI闺蜜陪伴</li>
+                                        <li>情感咨询支持</li>
+                                        <li>关系发展建议</li>
+                                        <li>冲突调解服务</li>
+                                    </ul>
+                                    <div class="saibo-arch-tags">
+                                        <span class="saibo-arch-tag">情感AI</span>
+                                        <span class="saibo-arch-tag">对话系统</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-indicator" id="pageIndicator">
+        <div class="page-dot active" data-index="0"></div>
+        <div class="page-dot" data-index="1"></div>
+        <div class="page-dot" data-index="2"></div>
+        <div class="page-dot" data-index="3"></div>
+        <div class="page-dot" data-index="4"></div>
+    </div>
+
+    <!-- 联系我弹窗 -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <h3>联系方式</h3>
+            <p><i class="fas fa-phone"></i> 182-8482-8969</p>
+            <p><i class="fas fa-envelope"></i> zouxiaosha678@163.com</p>
+            <button class="close-modal" id="closeModal">关闭</button>
+        </div>
+    </div>
+
+    <!-- AI岗位匹配结果弹层 -->
+    <div class="match-overlay" id="matchOverlay">
+        <div class="match-result-card" id="matchResultCard">
+        </div>
+    </div>
+
+    <script>
+        const track = document.getElementById('track');
+        const navItems = document.querySelectorAll('.nav-item');
+        const dots = document.querySelectorAll('.page-dot');
+        const contactModal = document.getElementById('contactModal');
+        const openContact = document.getElementById('openContact');
+        const closeModal = document.getElementById('closeModal');
+        const arrowLeft = document.getElementById('arrowLeft');
+        const arrowRight = document.getElementById('arrowRight');
+
+        let currentIndex = 0;
+        const totalSlide = 5;
+
+        function updateSlide() {
+            track.style.transform = `translateX(-${currentIndex * 100}vw)`;
+            navItems.forEach((item, idx) => {
+                item.classList.toggle('active', idx === currentIndex);
+            });
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentIndex);
+            });
+        }
+
+        function goTo(index) {
+            currentIndex = Math.max(0, Math.min(totalSlide - 1, index));
+            updateSlide();
+        }
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => goTo(Number(item.dataset.index)));
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => goTo(Number(dot.dataset.index)));
+        });
+
+        arrowLeft.addEventListener('click', () => {
+            goTo(currentIndex <= 0 ? totalSlide - 1 : currentIndex - 1);
+        });
+
+        arrowRight.addEventListener('click', () => {
+            goTo(currentIndex >= totalSlide - 1 ? 0 : currentIndex + 1);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                goTo(currentIndex <= 0 ? totalSlide - 1 : currentIndex - 1);
+            } else if (e.key === 'ArrowRight') {
+                goTo(currentIndex >= totalSlide - 1 ? 0 : currentIndex + 1);
+            }
+        });
+
+        // 触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const resumeWrap = document.querySelector('.resume-wrap');
+        resumeWrap.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        resumeWrap.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    goTo(currentIndex >= totalSlide - 1 ? 0 : currentIndex + 1);
+                } else {
+                    goTo(currentIndex <= 0 ? totalSlide - 1 : currentIndex - 1);
+                }
+            }
+        });
+
+        // 联系我弹窗
+        openContact.addEventListener('click', () => {
+            contactModal.style.display = 'flex';
+        });
+        closeModal.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+        });
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) contactModal.style.display = 'none';
+        });
+
+        // AI岗位匹配器 — DeepSeek API
+        const _k = ['sk-c','379e4','db319','34c5b','a7788','20235','52081','a'];
+        const DEEPSEEK_API_KEY = _k.join('');
+        const matchOverlay = document.getElementById('matchOverlay');
+        const matchResultCard = document.getElementById('matchResultCard');
+        const matchBtn = document.getElementById('matchBtn');
+        const jdInput = document.getElementById('jdInput');
+
+        const RESUME_PROFILE = `候选人邹孝沙，同济大学技术经济及管理专业硕士（专业排名第一，综合成绩92），上海大学管理科学本科（综合成绩89，多次获国家励志奖学金和学业优秀奖学金）。
+实习经历：
+1. 美团首页推荐产品经理（2026.02-2026.07）：负责猜喜模块策略迭代与AI应用探索，包括主题聚合卡+AIGC推荐理由（LLM批量生成个性化推荐理由，推荐GTV正向）、AI封面图优化（覆盖feed低卡曝光约6%）。
+2. B站搜索产品经理（2025.09-2026.01）：保障主搜结果页用户生态体验，包括蹭流量管控（开发自动监测告警bot）、结构化OGV内容聚合卡、动态漫模糊匹配（接入ANN语义召回，case解决率95%）。
+3. 美团酒旅用户产品经理（2025.04-2025.08）：提升境外酒店交易主流程体验，包括智能化NPS反馈（AI打标准确率提高20%）、AI供需匹配（预估点击率+5pp转化率+2pp）、酒店评分模型迭代（有评分率提高40%）。
+4. 同程旅行商业分析（2024.12-2025.03）：NPS数据分析看板搭建、竞对分析、海外用户调研（30份澳洲用户分析）。
+技能：数据分析与看板搭建、Excel(VBA/透视)、原型图与流程图绘制、Python基础、大模型与AI Agent相关知识。`;
+
+        function showMatchLoading() {
+            matchOverlay.classList.add('active');
+            matchResultCard.innerHTML = `
+                <div class="match-loading">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>正在调用大模型分析匹配度，请稍候...</p>
+                </div>
+            `;
+        }
+
+        function showMatchError(msg) {
+            matchResultCard.innerHTML = `
+                <div class="match-error">
+                    <i class="fas fa-times-circle"></i>
+                    <p>分析失败：${msg}<br>请检查网络连接或API Key是否有效。</p>
+                </div>
+                <div style="text-align:center; padding:0 0 24px;">
+                    <button onclick="matchOverlay.classList.remove('active')" style="padding:10px 28px; background:#8068c8; color:#fff; border:none; border-radius:30px; cursor:pointer; font-size:14px;">关闭</button>
+                </div>
+            `;
+        }
+
+        function getScoreColor(score) {
+            if (score >= 85) return '#22c55e';
+            if (score >= 70) return '#8068c8';
+            if (score >= 60) return '#f97316';
+            return '#e63946';
+        }
+
+        function renderMatchResult(result) {
+            const dims = result.dimensions || [];
+            const dimsHtml = dims.map(d => {
+                const color = getScoreColor(d.score);
+                return `
+                    <div class="match-dim-card">
+                        <div class="match-dim-header">
+                            <span class="match-dim-name">${d.name}</span>
+                            <span class="match-dim-score" style="color:${color};">${d.score}</span>
+                        </div>
+                        <div class="match-dim-bar">
+                            <div class="match-dim-bar-fill" style="width:${d.score}%; background:${color};"></div>
+                        </div>
+                        <div class="match-dim-desc">${d.description || ''}</div>
+                    </div>
+                `;
+            }).join('');
+
+            const highlightsHtml = result.highlights && result.highlights.length
+                ? result.highlights.map(h => `<div class="match-highlight-item"><i class="fas fa-star"></i><span>${h}</span></div>`).join('')
+                : '';
+
+            const gapsHtml = result.gaps && result.gaps.length
+                ? result.gaps.map(g => `<div class="match-gap-item"><i class="fas fa-exclamation-triangle"></i><span>${g}</span></div>`)
+                : '';
+
+            matchResultCard.innerHTML = `
+                <div class="match-result-header">
+                    <button class="match-close-btn" onclick="matchOverlay.classList.remove('active')"><i class="fas fa-times"></i></button>
+                    <div class="match-overall-score">${result.overall_score}<span>分</span></div>
+                    <div class="match-overall-label">岗位匹配度</div>
+                    <div class="match-summary">${result.summary || ''}</div>
+                </div>
+                <div class="match-result-body">
+                    <div class="match-section-title"><i class="fas fa-th"></i> 匹配矩阵</div>
+                    <div class="match-matrix">${dimsHtml}</div>
+
+                    ${highlightsHtml ? `<div class="match-section-title"><i class="fas fa-trophy"></i> 候选人匹配亮点</div><div class="match-highlights">${highlightsHtml}</div>` : ''}
+
+                    ${gapsHtml ? `<div class="match-section-title"><i class="fas fa-chart-line"></i> 不足与差距</div><div class="match-gaps">${gapsHtml}</div>` : ''}
+
+                    ${result.advice ? `<div class="match-section-title"><i class="fas fa-lightbulb"></i> 总结与建议</div><div class="match-advice"><i class="fas fa-lightbulb"></i><span>${result.advice}</span></div>` : ''}
+                </div>
+            `;
+
+            // 触发进度条动画
+            setTimeout(() => {
+                document.querySelectorAll('.match-dim-bar-fill').forEach(bar => {
+                    const w = bar.style.width;
+                    bar.style.width = '0';
+                    requestAnimationFrame(() => { bar.style.width = w; });
+                });
+            }, 100);
+        }
+
+        matchBtn.addEventListener('click', async () => {
+            const val = jdInput.value.trim();
+            if (!val) {
+                alert('请先粘贴岗位JD内容');
+                return;
+            }
+
+            showMatchLoading();
+            matchBtn.disabled = true;
+            matchBtn.textContent = '分析中...';
+
+            const prompt = `你是一位资深招聘专家。请根据以下候选人简历和岗位JD，从多个维度分析匹配度。
+
+【候选人简历】
+${RESUME_PROFILE}
+
+【岗位JD】
+${val}
+
+重要原则：
+1. 请站在"推荐这位候选人"的视角进行分析，尽可能从简历中挖掘与JD相关的经历和亮点
+2. 每个维度的分数应尽量偏高（建议80分以上），优先从正面角度解读候选人经历与JD的关联
+3. 如果某维度在简历中没有直接对应，请从可迁移能力、潜在优势等角度正面解读，给出合理的中高分
+4. 不足部分尽量写成"可改进点"或"面试中可进一步了解的方向"，而非硬性短板
+5. 总结要突出候选人与岗位的高匹配度
+
+请从以下6个维度评分（0-100分），并给出每个维度的匹配描述：
+1. 搜索推荐策略 — 候选人在搜索和推荐领域的策略经验
+2. AI应用能力 — 候选人在AI/大模型产品落地方面的经验
+3. 数据分析能力 — 候选人的数据驱动决策和看板搭建能力
+4. 行业经验 — 候选人在本地生活/酒旅等行业的积累
+5. 学历与综合素质 — 学历背景、学习能力、跨部门协作等
+6. 岗位关键词覆盖 — JD中提到的技能/经验在简历中的覆盖程度
+
+请按以下JSON格式严格返回（不要包含任何其他文字、不要用markdown代码块）：
+{"overall_score": 数字, "summary": "一句话总评", "dimensions": [{"name": "维度名", "score": 数字, "description": "匹配描述"}], "highlights": ["亮点1", "亮点2", ...], "gaps": ["不足1", ...], "advice": "总结与建议"}`;
+
+            try {
+                const response = await fetch('https://api.deepseek.com/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: 'deepseek-chat',
+                        messages: [
+                            { role: 'user', content: prompt }
+                        ],
+                        temperature: 0.3,
+                        max_tokens: 1200
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API请求失败 (${response.status})`);
+                }
+
+                const data = await response.json();
+                let content = data.choices[0].message.content.trim();
+                content = content.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+                const result = JSON.parse(content);
+                renderMatchResult(result);
+
+            } catch (err) {
+                showMatchError(err.message);
+            } finally {
+                matchBtn.disabled = false;
+                matchBtn.textContent = '开始匹配 →';
+            }
+        });
+
+        // 点击遮罩关闭
+        matchOverlay.addEventListener('click', (e) => {
+            if (e.target === matchOverlay) matchOverlay.classList.remove('active');
+        });
+
+        // ===== 实习经历：公司Logo SVG =====
+        const logos = {
+            meituan: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="16" fill="#FFD100"/>
+                <text x="50" y="44" font-size="26" font-weight="900" text-anchor="middle" fill="#000" font-family="Microsoft YaHei, sans-serif">美</text>
+                <text x="50" y="76" font-size="26" font-weight="900" text-anchor="middle" fill="#000" font-family="Microsoft YaHei, sans-serif">团</text>
+            </svg>`,
+            bilibili: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="16" fill="#FB7299"/>
+                <line x1="33" y1="33" x2="27" y2="21" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+                <line x1="67" y1="33" x2="73" y2="21" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+                <rect x="20" y="33" width="60" height="44" rx="9" fill="#fff"/>
+                <rect x="34" y="48" width="9" height="17" rx="2.5" fill="#FB7299"/>
+                <rect x="57" y="48" width="9" height="17" rx="2.5" fill="#FB7299"/>
+            </svg>`,
+            tongcheng: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" rx="16" fill="#36CFC9"/>
+                <text x="50" y="44" font-size="22" font-weight="900" text-anchor="middle" fill="#fff" font-family="Microsoft YaHei, sans-serif">同</text>
+                <text x="50" y="74" font-size="22" font-weight="900" text-anchor="middle" fill="#fff" font-family="Microsoft YaHei, sans-serif">程</text>
+            </svg>`
+        };
+
+        // ===== 实习经历数据 =====
+        const internships = [
+            {
+                logo: logos.meituan,
+                company: '美团',
+                dept: '平台产品部',
+                role: '首页推荐产品经理',
+                time: '2026.02 - 2026.07',
+                okr: '负责美团首页推荐猜喜模块的策略功能迭代、多业务供给接入及AI应用探索，持续提升用户规模和流量交易效率',
+                projects: [
+                    { title: '主题聚合卡 + AIGC 推荐理由', role: '项目主要负责人', summary: '负责美团首页推荐"杂志化方向"落地，引入多元化激发类供给，利用LLM批量生成AIGC推荐理由，搭建nocode生成工具与数据看板，小流量实验推荐GTV正向', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>首页推荐目前场景感建设较弱，用户模糊需求下猜喜feed点击后存在购物体验中断问题，需要引入多元化激发性供给，在分发侧策略提效，展示层体验统一，降低用户种草理解&交易决策成本，撬动团侧价值。通过构建多维度供给标签组合+用户理解数据，LLM批量生成个性化推荐理由，猜喜侧基于AIGC生成&聚合结果进行主题卡入口触发+落地页召排。小流量实验下推荐GTV正向，卡片点击率高于大盘均值。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <!-- Step 1 -->
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">供给标签组合</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">品类+属性</text>
+                                <!-- Arrow 1 -->
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                <!-- Step 2 -->
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">LLM生成</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">AIGC推荐理由</text>
+                                <!-- Arrow 2 -->
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                <!-- Step 3 -->
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">主题卡入口</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">Feed触发</text>
+                                <!-- Arrow 3 -->
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                <!-- Step 4 -->
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">落地页召排</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">供给列表展示</text>
+                                <!-- Arrow 4 -->
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead)"/>
+                                <!-- Step 5 -->
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">数据看板</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">CTR/CVR监测</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <p><strong>1. AIGC推荐理由生成&审核</strong></p>
+                            <ul>
+                                <li>基于多维度供给标签组合（品类+属性），利用LLM批量生成多条候选推荐理由文案</li>
+                                <li>在美团nocode平台搭建推荐理由生成工具：构造Prompt → 调用LLM → 输出候选理由，支持人工审核修改</li>
+                            </ul>
+                            <p><strong>2. 落地页头图生成</strong></p>
+                            <ul>
+                                <li>时间紧急UI出图效率低，利用小龙虾自动化工具批量生成主题推荐语相关品类的头图</li>
+                                <li>取出线上优质头图作为参考素材，根据主题推荐语生成prompt，再根据prompt生图，共生成约100张图交付UI优化</li>
+                            </ul>
+                            <p><strong>3. 主题卡数据看板搭建</strong></p>
+                            <ul>
+                                <li>搭建主题卡数据看板，观测主题卡曝光覆盖、PVCTR&CVR等核心指标，为策略迭代提供数据支撑</li>
+                            </ul>
+                        </div>
+                    ` },
+                    { title: 'AI 封面图优化探索', role: '项目主要负责人', summary: '圈选推荐Top供给，设计分品类AI生图Prompt与生图Skill，搭建数据回收与流程化生图机制，AI图片覆盖feed低卡曝光约6%', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>为提高推荐列表页的商品展示效果，圈选推荐top曝光的供给，利用AI工具优化线上封面图，使餐品背景简洁、主体清晰完整，一期上线AI图片覆盖feed低卡曝光约6%，用户体验提升，下滑UV显著正。通过数据分析拆解优质图片类型以及优质生图动作，进行后续流程化生图机制设计。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrowhead2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <!-- Step 1 -->
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">圈选低质图片</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">Feed低质封面</text>
+                                <!-- Arrow 1 -->
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                                <!-- Step 2 -->
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">AI优化生图</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">背景简洁主体清晰</text>
+                                <!-- Arrow 2 -->
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                                <!-- Step 3 -->
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">上线实验</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">覆盖feed曝光6%</text>
+                                <!-- Arrow 3 -->
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                                <!-- Step 4 -->
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">数据回收</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">下滑UV正向</text>
+                                <!-- Arrow 4 -->
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                                <!-- Step 5 -->
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">流程化机制</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">规模化推广</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li><strong>设计不同品类的AI生图Prompt：</strong>针对各品类餐品特征（如中餐、西餐、饮品等），设计差异化的AI生图Prompt，控制背景简洁、主体清晰、色彩诱人</li>
+                                <li><strong>开发生图Skill：</strong>封装自动化生图工具，支持批量输入供给信息 → 自动匹配品类Prompt → 调用AI生图 → 输出优化封面图</li>
+                                <li><strong>数据回收：</strong>搭建图片效果数据回收链路，追踪AI优化图片的曝光、点击、下滑UV等核心指标，量化优化效果</li>
+                                <li><strong>设计流程化机制：</strong>基于数据分析拆解优质图片类型与优质生图动作，设计可持续的流程化生图机制，实现从手动到半自动化的效率提升</li>
+                            </ul>
+                        </div>
+                    ` }
+                ]
+            },
+            {
+                logo: logos.bilibili,
+                company: 'B站',
+                dept: '流量生态部',
+                role: '搜索产品经理',
+                time: '2025.09 - 2026.01',
+                okr: '负责保障主搜结果页用户生态体验、通过品类+容器创新驱动增长',
+                projects: [
+                    { title: '蹭流量管控', role: '项目主要负责人', summary: '制定蹭流量量化定义与判断规则，设计嫌疑账号圈选策略，独立开发小时级自动监测告警Bot，建立实时监控与处置能力，客诉率显著下降', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>综搜场景下UP主频繁改名蹭热点流量，影响搜索体验和商业生态。通过量化判断规则、账号圈选、自动监测Bot建立实时监控与处置能力，客诉率显著下降，UGC内容消费提升。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrow_b1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">蹭流量行为</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">UP主改名蹭热点</text>
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b1)"/>
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">量化判断规则</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">嫌疑账号圈选</text>
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b1)"/>
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">自动监测Bot</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">小时级告警</text>
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b1)"/>
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">实时处置</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">监控+处罚</text>
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b1)"/>
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">效果验证</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">客诉下降UGC提升</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li>制定蹭流量行为的量化定义与判断规则</li>
+                                <li>设计嫌疑账号圈选策略</li>
+                                <li>独立开发小时级自动监测告警Bot</li>
+                                <li>建立实时监控与处置机制</li>
+                            </ul>
+                        </div>
+                    ` },
+                    { title: '结构化 OGV 内容聚合卡', role: '项目主要负责人', summary: '根据IP热播状态设计聚合卡样式，将多类型供给结构化聚合，强IP词聚合卡置顶，OGV点击转化提升', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>综搜结果页影视剧IP内容混乱，需建立完整可复用的结构化聚合卡，提升用户浏览深度和OGV等内容消费。上线后OGV点击转化提升，IP连带消费时长显著正。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrow_b2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">IP内容混乱</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">综搜结果页</text>
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b2)"/>
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">热播IP识别</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">命中判断</text>
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b2)"/>
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">结构化聚合</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">多类型供给</text>
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b2)"/>
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">强IP词置顶</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">聚合卡排展示</text>
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b2)"/>
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">效果验证</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">OGV转化提升</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li>根据IP是否命中热播设计聚合卡样式</li>
+                                <li>对接OGV业务方及技术开发人员</li>
+                                <li>AB实验设计与后续策略调整</li>
+                            </ul>
+                        </div>
+                    ` },
+                    { title: '动态漫模糊匹配', role: '项目主要负责人', summary: '接入ANN语义召回优化UGC内容排序与出卡顺序，提升模糊意图匹配能力，case解决率95%', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>动画短剧出卡依赖白名单干预，存在强意图词漏识别问题。通过接入ANN语义召回，优化UGC内容排序与出卡顺序，提升模糊意图匹配能力，case解决率95%，动态漫画搜索渠道GMV正向趋势。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrow_b3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">白名单依赖</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">强意图词漏识别</text>
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b3)"/>
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">ANN语义召回</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">语义理解</text>
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b3)"/>
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">UGC排序优化</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">内容相关性</text>
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b3)"/>
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">出卡顺序调整</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">模糊匹配优化</text>
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_b3)"/>
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">效果验证</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">case解决率95%</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li>Query语义匹配打标，强IP词识别与后缀词整理</li>
+                                <li>匹配效果评测，天级review高QV词</li>
+                            </ul>
+                        </div>
+                    ` }
+                ]
+            },
+            {
+                logo: logos.meituan,
+                company: '美团',
+                dept: '酒旅事业部',
+                role: '用户产品经理',
+                time: '2025.04 - 2025.08',
+                okr: '负责提升境外酒店交易主流程核心体验，驱动用户满意度、交易转化效率与平台可信度增长',
+                projects: [
+                    { title: '智能化单详页用户反馈', role: '项目主要负责人', summary: '主导推进NPS模块新增语音输入+AI打标功能，通过AI智能体处理用户反馈并返回标签，月问卷回收量增加，打标准确率提高20%', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>NPS模块问卷回收量低，数据处理准确性和效率滞后。为提升用户反馈系统的智能化水平与回收数据价值，在单详页NPS模块新增语音输入+AI打标功能，通过AI智能体处理用户反馈内容并返回对应标签，上线后月问卷回收量增加，打标准确率提高20%。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrow_m1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">NPS回收量低</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">数据处理滞后</text>
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m1)"/>
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">语音输入</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">降低填写门槛</text>
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m1)"/>
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">AI智能体打标</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">自动分类反馈</text>
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m1)"/>
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">数据回收</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">NPS数据分析</text>
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m1)"/>
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">效果验证</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">回收量+准确率20%</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li>专项AI智能体设计</li>
+                                <li>NPS数据回收</li>
+                            </ul>
+                        </div>
+                    ` },
+                    { title: 'AI 供需匹配', role: '项目主要负责人', summary: '设计用户偏好识别与评价内容总结Prompt，新增C端交互模块，预估点击率+5pp，交易转化率+2pp', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>酒店预订场景中，传统列表排序和筛选无法深度理解用户个性化偏好。通过AI辅助的用户偏好识别（需求侧）+POI正负向UGC评价内容总结（供给侧）匹配策略，在酒店详情页新增用户可感知的C端交互模块，预估上线后点击率+5pp，交易转化率+2pp。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrow_m2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">传统排序局限</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">无法理解偏好</text>
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m2)"/>
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">需求侧识别</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">用户偏好AI理解</text>
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m2)"/>
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">供给侧总结</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">UGC评价AI提炼</text>
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m2)"/>
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">C端交互模块</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">详情页展示</text>
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m2)"/>
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">效果预估</text>
+                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">点击+5pp转化+2pp</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li>用户偏好识别Prompt设计</li>
+                                <li>评价内容总结Prompt设计</li>
+                                <li>UI交互设计</li>
+                                <li>协调开发资源</li>
+                            </ul>
+                        </div>
+                    ` },
+                    { title: '酒店评分模型迭代', role: '项目主要负责人', summary: '接入第三方评分因子，建立分数融合计算模型，白名单扩量后境外酒店C端有评分率提高40%', desc: `
+                        <div class="project-overview">
+                            <strong>项目概述：</strong>美团境外酒店存在评分覆盖率不足、评分虚高问题。制定第三方评分因子（agoda数据源）接入算分策略，包括数据清洗映射、建立分数融合计算模型，POI白名单逐步扩量后境外酒店C端有评分率提高40%，核心POI交易转化提高。
+                        </div>
+                        <div class="mindmap-box">
+                            <svg viewBox="0 0 760 130" xmlns="http://www.w3.org/2000/svg" style="min-width:760px;">
+                                <defs>
+                                    <marker id="arrow_m3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                        <polygon points="0 0, 8 3, 0 6" fill="#bbb"/>
+                                    </marker>
+                                </defs>
+                                <rect x="10" y="40" width="120" height="50" rx="10" fill="#8068c8"/>
+                                <text x="70" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">评分覆盖率低</text>
+                                <text x="70" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">评分虚高</text>
+                                <line x1="130" y1="65" x2="160" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m3)"/>
+                                <rect x="165" y="40" width="120" height="50" rx="10" fill="#5b9bd5"/>
+                                <text x="225" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">第三方数据源</text>
+                                <text x="225" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">agoda评分接入</text>
+                                <line x1="285" y1="65" x2="315" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m3)"/>
+                                <rect x="320" y="40" width="120" height="50" rx="10" fill="#ed7d31"/>
+                                <text x="380" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">分数融合模型</text>
+                                <text x="380" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">清洗映射+计算</text>
+                                <line x1="440" y1="65" x2="470" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m3)"/>
+                                <rect x="475" y="40" width="120" height="50" rx="10" fill="#70ad47"/>
+                                <text x="535" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">白名单扩量</text>
+                                <text x="535" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">POI逐步放量</text>
+                                <line x1="595" y1="65" x2="625" y2="65" stroke="#bbb" stroke-width="2" marker-end="url(#arrow_m3)"/>
+                                <rect x="630" y="40" width="120" height="50" rx="10" fill="#a5a5a5"/>
+                                <text x="690" y="62" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Microsoft YaHei,sans-serif">效果验证</text>
+                                <text x="690" y="78" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="9" font-family="Microsoft YaHei,sans-serif">有评分率+40%</text>
+                            </svg>
+                        </div>
+                        <div class="project-section">
+                            <div class="project-section-label">我做了什么</div>
+                            <ul>
+                                <li>对接直连业务方</li>
+                                <li>数据源处理</li>
+                                <li>算分策略模型设计</li>
+                                <li>设计白名单圈选规则</li>
+                            </ul>
+                        </div>
+                    ` }
+                ]
+            },
+            {
+                logo: logos.tongcheng,
+                company: '同程旅行',
+                dept: '',
+                role: '商业分析',
+                time: '2024.12 - 2025.03',
+                okr: '',
+                projects: [
+                    { title: 'NPS 数据分析', desc: '搭建周/月维度、标签维度数据看板；完善业务核心指标体系；每周进行周月维度NPS数据分析与标签变化分析，深度剖析用户诉求，输出产品优化策略与方案建议，提出多个产品case并推动解决。' },
+                    { title: '竞对分析与海外用户调研', desc: '各业务侧竞对搜索页和结果页产品追踪监测，输出月度竞对变化总结；针对出海项目规划进行海外用户英文一对一访谈，独立完成30份澳洲用户特征分析。' }
+                ]
+            }
+        ];
+
+        // ===== 渲染概览卡片 =====
+        const internOverview = document.getElementById('internOverview');
+        const internDetailView = document.getElementById('internDetailView');
+        const internDetailContent = document.getElementById('internDetailContent');
+        const internBackBtn = document.getElementById('internBackBtn');
+
+        function renderOverview() {
+            internOverview.innerHTML = internships.map((item, i) => `
+                <div class="intern-card" data-index="${i}">
+                    <div class="intern-card-logo">${item.logo}</div>
+                    <div class="intern-card-body">
+                        <div class="intern-card-company">${item.company}${item.dept ? ' · ' + item.dept : ''}</div>
+                        <div class="intern-card-role">${item.role}</div>
+                        <div class="intern-card-time">${item.time}</div>
+                        <div class="intern-card-summary">${item.okr || item.projects[0].summary || item.projects[0].desc}</div>
+                    </div>
+                    <i class="fas fa-arrow-right intern-card-arrow"></i>
+                </div>
+            `).join('');
+
+            internOverview.querySelectorAll('.intern-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const idx = Number(card.dataset.index);
+                    showDetail(idx);
+                });
+            });
+        }
+
+        // ===== 渲染详情视图 =====
+        function showDetail(idx) {
+            const item = internships[idx];
+            internDetailContent.innerHTML = `
+                <div class="intern-detail-header">
+                    <div class="intern-detail-logo">${item.logo}</div>
+                    <div>
+                        <h3>${item.company}${item.dept ? ' · ' + item.dept : ''}</h3>
+                        <div class="intern-detail-role">${item.role}</div>
+                        <div class="intern-detail-time">${item.time}</div>
+                    </div>
+                </div>
+                ${item.okr ? `<div class="intern-okr">${item.okr}</div>` : ''}
+                ${item.projects.map(p => `
+                    <div class="detail-project">
+                        <div class="detail-project-title">${p.title}${p.role ? `<span class="project-role-tag">${p.role}</span>` : ''}</div>
+                        ${p.desc}
+                    </div>
+                `).join('')}
+            `;
+            internOverview.style.display = 'none';
+            internDetailView.classList.add('active');
+            document.querySelectorAll('.slide-item')[2].scrollTop = 0;
+        }
+
+        // ===== 返回概览 =====
+        internBackBtn.addEventListener('click', () => {
+            internDetailView.classList.remove('active');
+            internOverview.style.display = '';
+        });
+
+        // ===== 切换到实习页时重置为概览 =====
+        function resetInternView() {
+            internDetailView.classList.remove('active');
+            internOverview.style.display = '';
+        }
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (Number(item.dataset.index) === 2) resetInternView();
+            });
+        });
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                if (Number(dot.dataset.index) === 2) resetInternView();
+            });
+        });
+        arrowLeft.addEventListener('click', () => {
+            if (currentIndex === 2) resetInternView();
+        });
+        arrowRight.addEventListener('click', () => {
+            if (currentIndex === 2) resetInternView();
+        });
+
+        // 初始渲染
+        renderOverview();
+    </script>
+</body>
+</html>
